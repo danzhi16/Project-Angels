@@ -3,6 +3,8 @@ package Interfaces;
 import Data.IDB;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class PostgresDB implements IDB {
     private String host;
@@ -14,16 +16,9 @@ public class PostgresDB implements IDB {
 
     private PostgresDB(String host, String username, String password, String dbname) {
         setHost(host);
-    }
-
-    @Override
-    public Connection getConnection() {
-        return null;
-    }
-
-    @Override
-    public void closeConnection() {
-
+        setUsername(username);
+        setPassword(password);
+        setDbname(dbname);
     }
 
     public String getHost() {
@@ -58,7 +53,29 @@ public class PostgresDB implements IDB {
         this.dbname = dbname;
     }
 
-    public void setConnection(Connection connection) {
-        this.connection = connection;
+    @Override
+    public Connection getConnection() {
+        String url = host + "/" + dbname;
+        try{
+            if(connection == null && !connection.isClosed()) {
+                return connection;
+            }
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, username, password);
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database" + e.getMessage() );
+        }
+        return null;
+    }
+
+    @Override
+    public void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+            }catch(SQLException e){
+                System.out.println("Failed to close database connection" + e.getMessage() );
+            }
+        }
     }
 }

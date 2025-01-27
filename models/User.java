@@ -42,7 +42,7 @@ public class User {
         this.surname = surname;
     }
 
-    public boolean isGender() {
+    public boolean getGender() {
         return gender;
     }
 

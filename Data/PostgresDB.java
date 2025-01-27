@@ -1,6 +1,6 @@
-package Data.Interfaces;
+package Data;
 
-import Data.IDB;
+import Data.Interfaces.IDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ public class PostgresDB implements IDB {
 
     private Connection connection;
 
-    private PostgresDB(String host, String username, String password, String dbname) {
+    public PostgresDB(String host, String username, String password, String dbname) {
         setHost(host);
         setUsername(username);
         setPassword(password);
@@ -77,5 +77,10 @@ public class PostgresDB implements IDB {
                 System.out.println("Failed to close database connection" + e.getMessage() );
             }
         }
+    }
+
+    @Override
+    public void close() {
+
     }
 }

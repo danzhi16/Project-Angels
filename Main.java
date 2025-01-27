@@ -1,7 +1,7 @@
 import controllers.UserController;
 import controllers.interfaces.IUserController;
-import data.PostgresDB;
-import data.interfaces.IDB;
+import Data.PostgresDB;
+import Data.Interfaces.IDB;
 import repositories.UserRepository;
 import repositories.interfaces.IUserRepository;
 
@@ -13,6 +13,5 @@ public class Main {
         MyApplication app = new MyApplication(controller);
         app.start();
         db.close();
-
     }
 }

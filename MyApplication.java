@@ -50,14 +50,14 @@ public class MyApplication {
     }
 
     private void getAllUsersMenu() {
-        String response =userController.getAllUsers();
+        String response = userController.getAllUsers();
         System.out.println(response);
     }
 
     private void mainMenu() {
         System.out.println();
-        System.out.println("Welcome to My Application!");
-        System.out.println("Select an option (1-3):");
+        System.out.println("Welcome to Tea store DB!");
+        System.out.println("Select an option:");
         System.out.println("1. Get all users");
         System.out.println("2. Get user by id");
         System.out.println("3. Create a new user");

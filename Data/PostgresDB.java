@@ -55,13 +55,14 @@ public class PostgresDB implements IDB {
 
     @Override
     public Connection getConnection() {
-        String url = host + "/" + dbname;
+        String connectionUrl = host + "/" + dbname;
         try{
-            if(connection == null && !connection.isClosed()) {
+            if(connection != null && !connection.isClosed()) {
                 return connection;
             }
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(connectionUrl, username, password);
+            return connection;
         } catch (Exception e) {
             System.out.println("Failed to connect to database" + e.getMessage() );
         }

@@ -56,7 +56,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", gender=" + gender +
+                ", gender=" + (gender ? "Male" : "Female") +
                 '}';
     }
 }

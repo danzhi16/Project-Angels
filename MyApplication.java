@@ -37,7 +37,6 @@ public class MyApplication {
         String surname = scanner.next();
         System.out.println("Please enter a gender: ");
         String gender = scanner.next();
-
         String response = userController.createUser(name, surname, gender);
         System.out.println(response);
     }
@@ -54,6 +53,16 @@ public class MyApplication {
         System.out.println(response);
     }
 
+    private void ListOfGoodsMenu() {
+        String response = userController.getAllUsers();
+        System.out.println(response);
+    }
+
+    private void deleteUserMenu() {
+        String response = userController.getAllUsers();
+        System.out.println(response);
+    }
+
     private void mainMenu() {
         System.out.println();
         System.out.println("Welcome to Tea store DB!");
@@ -61,6 +70,8 @@ public class MyApplication {
         System.out.println("1. Get all users");
         System.out.println("2. Get user by id");
         System.out.println("3. Create a new user");
+        System.out.println("4. Delete user (in progress)");
+        System.out.println("5. List of goods (in progress)");
         System.out.println("0. Exit");
         System.out.print("Enter option (1-3): ");
     }

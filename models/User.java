@@ -19,7 +19,6 @@ public class User {
     public User(int id, String name, String surname, boolean gender) {
         this(name, surname, gender);
         this.id = id;
-
     }
 
     public int getId() {

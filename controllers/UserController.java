@@ -17,7 +17,6 @@ public class UserController implements IUserController {
     public String createUser(String name, String surname, String gender) {
         boolean male = gender.equalsIgnoreCase("male");
         User user = new User(name, surname, male);
-
         boolean created = repo.createUser(user);
         return (created) ? "User was created" : "User creation failed";
     }
@@ -30,6 +29,21 @@ public class UserController implements IUserController {
 
     @Override
     public String getAllUsers() {
+        List<User> users = repo.getAllUsers();
+        StringBuilder response = new StringBuilder();
+        for (User user : users) {
+            response.append(user.toString()).append("\n");
+        }
+        return response.toString();
+    }
+
+    @Override
+    public String deleteUser(int id) {
+        return "";
+    }
+
+    @Override
+    public String ListOfGoods() {
         List<User> users = repo.getAllUsers();
         StringBuilder response = new StringBuilder();
         for (User user : users) {

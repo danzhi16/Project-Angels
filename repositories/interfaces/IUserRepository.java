@@ -2,10 +2,12 @@ package repositories.interfaces;
 
 import models.User;
 
+import java.rmi.StubNotFoundException;
 import java.util.List;
 
 public interface IUserRepository {
 
+    boolean createUser(String username, String password, String name, String surname, boolean gender);
 
     boolean createUser(User user);
 

@@ -13,14 +13,16 @@ public class MyApplication {
 
     public void start() {
         while (true) {
-            mainMenu();
-            try {
+            try{
+                System.out.println("Welcome to Tea store DB!");
+                System.out.println("Select an option:");
+                System.out.println("1. Log in as admin");
+                System.out.println("2. Log in as user");
+                System.out.println("0. Exit");
                 int option = scanner.nextInt();
                 switch (option) {
-                    case 1: getAllUsersMenu(); break;
-                    case 2: getUserByIdMenu(); break;
-                    case 3: createUserMenu(); break;
-                    case 4 : deleteUserMenu(); break;
+                    case 1: AdminMenu(); break;
+                    case 2: UserMenu(); break;
                     default: return;
                 }
             }catch (InputMismatchException e) {
@@ -28,6 +30,42 @@ public class MyApplication {
             }catch (Exception e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+    private void AdminMenu(){
+        System.out.println("Select an option:");
+        System.out.println("1. Log in as admin");
+        System.out.println("2. Log in as user");
+        System.out.println("0. Exit");
+        try {
+            int option = scanner.nextInt();
+            switch (option) {
+                case 1: getUserByIdMenu(); break;
+                case 2 : deleteUserMenu(); break;
+                default: return;
+            }
+        }catch (InputMismatchException e) {
+            System.out.println("Input must be number");
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    private void UserMenu(){
+        System.out.println("Select an option:");
+        System.out.println("1. Log in as admin");
+        System.out.println("2. Log in as user");
+        System.out.println("0. Exit");
+        try {
+            int option = scanner.nextInt();
+            switch (option) {
+                case 1: createUserMenu(); break;
+                case 2 : getAllUsersMenu(); break;
+                default: return;
+            }
+        }catch (InputMismatchException e) {
+            System.out.println("Input must be number");
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 

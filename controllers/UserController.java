@@ -9,17 +9,19 @@ import java.util.List;
 public class UserController implements IUserController {
 
     private final IUserRepository repo;
+
     public UserController(IUserRepository repo) {
         this.repo = repo;
     }
 
     @Override
-    public String createUser(String name, String surname, String gender) {
+    public String createUser(String username, String password, String name, String surname, String gender) {
         boolean male = gender.equalsIgnoreCase("male");
-        User user = new User(name, surname, male);
+        User user = new User(username, password, name, surname, male);
         boolean created = repo.createUser(user);
-        return (created) ? "User was created" : "User creation failed";
+        return (created) ? "User was created successfully" : "User creation failed";
     }
+
 
     @Override
     public String getUserById(int id) {
@@ -30,6 +32,10 @@ public class UserController implements IUserController {
     @Override
     public String getAllUsers() {
         List<User> users = repo.getAllUsers();
+        if (users.isEmpty()) {
+            return "No users found.";
+        }
+
         StringBuilder response = new StringBuilder();
         for (User user : users) {
             response.append(user.toString()).append("\n");
@@ -40,9 +46,15 @@ public class UserController implements IUserController {
     @Override
     public String deleteUser(int id) {
         boolean deleted = repo.deleteUser(id);
-        return (deleted) ? "User was deleted" : "User deletion failed";
+        return (deleted) ? "User was deleted successfully" : "User deletion failed";
     }
 
-
-
+    @Override
+    public boolean loginUser(String username, String password) {
+        User user = repo.getUserByUsername(username);
+        if (user == null) {
+            return false; // User not found
+        }
+        return user.getPassword().equals(password);
+    }
 }

@@ -14,24 +14,29 @@ public class UserRepository implements IUserRepository {
     public UserRepository(IDB db) {
         this.db = db;
     }
+
     @Override
     public boolean createUser(User user) {
-        Connection conn = null;
-        try{
-            conn = db.getConnection();
-            String sql = "INSERT INTO users (name, surname, gender) VALUES (?, ?, ?)";
-            PreparedStatement st = conn.prepareStatement(sql);
+        String sql = "INSERT INTO users(username, password, name, surname, gender) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = db.getConnection();
+             PreparedStatement st = conn.prepareStatement(sql)) {
 
-            st.setString(1, user.getName());
-            st.setString(2, user.getSurname());
-            st.setBoolean(3, user.getGender());
+            st.setString(1, user.getUsername());
+            st.setString(2, hashPassword(user.getPassword()));  // Securely hash the password
+            st.setString(3, user.getName());
+            st.setString(4, user.getSurname());
+            st.setBoolean(5, user.getGender());
 
             st.execute();
             return true;
-        }catch (SQLException e){
-            System.out.println("sql error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("SQL error during user creation: " + e.getMessage());
         }
         return false;
+    }
+
+    private String hashPassword(String password) {
+        return null;
     }
 
     @Override
@@ -45,15 +50,18 @@ public class UserRepository implements IUserRepository {
             st.setInt(1, id);
 
             ResultSet rs = st.executeQuery();
-            if (rs.next()){
-                return new User(rs.getInt("id"),
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
                         rs.getString("name"),
                         rs.getString("surname"),
-                        rs.getBoolean("gender"));
-
+                        rs.getBoolean("gender")
+                );
             }
-        }catch (SQLException e){
-            System.out.println("sql error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
         }
         return null;
     }
@@ -61,28 +69,70 @@ public class UserRepository implements IUserRepository {
     @Override
     public List<User> getAllUsers() {
         Connection conn = null;
-        try{
+        try {
             conn = db.getConnection();
             String sql = "SELECT * FROM users";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             List<User> users = new ArrayList<>();
-            while (rs.next()){
-                User user = new User(rs.getInt("id"),
+            while (rs.next()) {
+                users.add(new User(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
                         rs.getString("name"),
                         rs.getString("surname"),
-                        rs.getBoolean("gender"));
-                users.add(user);
+                        rs.getBoolean("gender")
+                ));
             }
             return users;
-        }catch (SQLException e){
-            System.out.println("sql error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public boolean deleteUser(int id) {
+        Connection conn = null;
+        try {
+            conn = db.getConnection();
+            String sql = "DELETE FROM users WHERE id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, id);
+
+            int affectedRows = st.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+        }
         return false;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        Connection conn = null;
+        try {
+            conn = db.getConnection();
+            String sql = "SELECT * FROM users WHERE username = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            st.setString(1, username);
+
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getBoolean("gender")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+        }
+        return null;
     }
 }

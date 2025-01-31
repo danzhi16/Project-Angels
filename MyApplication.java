@@ -20,7 +20,7 @@ public class MyApplication {
                     case 1: getAllUsersMenu(); break;
                     case 2: getUserByIdMenu(); break;
                     case 3: createUserMenu(); break;
-                    case 4 :deleteUserMenu(); break;
+                    case 4 : deleteUserMenu(); break;
                     default: return;
                 }
             }catch (InputMismatchException e) {

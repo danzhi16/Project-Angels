@@ -80,4 +80,9 @@ public class UserRepository implements IUserRepository {
         }
         return null;
     }
+
+    @Override
+    public boolean deleteUser(int id) {
+        return false;
+    }
 }

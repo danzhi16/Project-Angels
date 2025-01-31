@@ -1,4 +1,10 @@
 package controllers.interfaces;
 
-public class IProductController {
+import models.Product;
+
+public interface IProductController {
+    String createProduct(Product product);
+    String getProductById(int id);
+    String getAllProducts();
+    String deleteProduct(int id);
 }

@@ -7,5 +7,4 @@ public interface IUserController {
     String getUserById(int id);
     String getAllUsers();
     String deleteUser(int id);
-    String ListOfGoods();
 }

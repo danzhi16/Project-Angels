@@ -39,16 +39,10 @@ public class UserController implements IUserController {
 
     @Override
     public String deleteUser(int id) {
-        return "";
+        boolean deleted = repo.deleteUser(id);
+        return (deleted) ? "User was deleted" : "User deletion failed";
     }
 
-    @Override
-    public String ListOfGoods() {
-        List<User> users = repo.getAllUsers();
-        StringBuilder response = new StringBuilder();
-        for (User user : users) {
-            response.append(user.toString()).append("\n");
-        }
-        return response.toString();
-    }
+
+
 }
